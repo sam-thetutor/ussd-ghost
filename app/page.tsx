@@ -1,53 +1,86 @@
+import Image from "next/image";
 import Link from "next/link";
+import { Figtree, IBM_Plex_Mono } from "next/font/google";
+
+const figtree = Figtree({
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const plexMono = IBM_Plex_Mono({
+  weight: ["400", "500"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const AT_SIMULATOR = "https://simulator.africastalking.com:1517/";
+const AT_DIAL = "*384*71618#";
 
 export default function Home() {
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-10 px-6 py-12">
-      <header className="space-y-4">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#e2b04a]">
-          ETHGlobal Mumbai · Whitechain Scale
-        </p>
-        <h1 className="text-4xl font-semibold tracking-tight">USSD Ghost</h1>
-        <p className="max-w-xl text-lg leading-8 text-[#d7c9a8]">
-          A kiosk till the payer approves on a phone-number / USSD-like screen.
-          They never open a crypto app, never hold WBT, never see a seed or a
-          chain. A relayer pays gas. Settlement is prize USDT on Whitechain
-          Sepolia.
-        </p>
-        <p className="rounded-md border border-yellow-700/40 bg-black/40 px-4 py-3 font-mono text-sm text-[#f5d76e]">
-          USSD simulator — not a live MNO session. The telco hop is fake; the
-          Whitechain payment is not.
-        </p>
-      </header>
-      <nav className="grid gap-4 sm:grid-cols-3">
-        <Link
-          href="/phone"
-          className="rounded-xl border border-[#3d3428] bg-[#1c1813] p-5 transition hover:border-[#e2b04a]"
-        >
-          <h2 className="text-lg font-medium">/phone</h2>
-          <p className="mt-2 text-sm text-[#b9aa8e]">
-            Payer. Dial *384*71#. No wallet connect.
+    <main
+      className={`${figtree.className} flex flex-1 flex-col bg-[#1A140C] text-[#F4EBD8]`}
+    >
+      <section className="grid min-h-[min(78vh,44rem)] flex-1 grid-cols-1 lg:grid-cols-[minmax(0,42fr)_minmax(0,58fr)]">
+        <div className="flex flex-col justify-center gap-5 px-6 py-12 sm:px-10 lg:px-14 lg:py-16">
+          <p
+            className={`${plexMono.className} text-[11px] font-medium uppercase tracking-[0.28em] text-[#F4EBD8]/70`}
+          >
+            USSD Ghost
           </p>
-        </Link>
-        <Link
-          href="/till"
-          className="rounded-xl border border-[#3d3428] bg-[#1c1813] p-5 transition hover:border-[#e2b04a]"
-        >
-          <h2 className="text-lg font-medium">/till</h2>
-          <p className="mt-2 text-sm text-[#b9aa8e]">
-            Mama Amina Kiosk. Invoice and explorer receipt.
+          <p
+            className={`${plexMono.className} text-[11px] font-medium uppercase tracking-[0.22em] text-[#F4EBD8]`}
+          >
+            Powered by Whitechain
           </p>
-        </Link>
-        <Link
-          href="/ops"
-          className="rounded-xl border border-[#3d3428] bg-[#1c1813] p-5 transition hover:border-[#e2b04a]"
-        >
-          <h2 className="text-lg font-medium">/ops</h2>
-          <p className="mt-2 text-sm text-[#b9aa8e]">
-            Gas wallet, faucet top-up, allowlist, drain drill.
+          <h1 className="max-w-[16ch] text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
+            Send and receive money on a feature phone.
+          </h1>
+          <p className="text-lg leading-7 text-[#F4EBD8] sm:text-xl">
+            USSD. No smartphone. No internet.
           </p>
+          <p className="max-w-md text-sm leading-6 text-[#C4A574] sm:text-base">
+            Dial a shortcode. Send to a till or receive from one. A relayer pays
+            gas; settlement is prize USDT on Whitechain. The customer never
+            opens a crypto app.
+          </p>
+          <a
+            href={AT_SIMULATOR}
+            className="inline-flex w-fit min-h-12 items-center justify-center rounded-full bg-[#B42318] px-6 py-3 text-base font-semibold text-[#F4EBD8] sm:text-lg"
+          >
+            Dial {AT_DIAL}
+          </a>
+          <p className={`${plexMono.className} text-xs leading-5 text-[#C4A574]`}>
+            Africa&apos;s Talking sandbox — not a live MNO.
+          </p>
+        </div>
+
+        <div className="relative min-h-[22rem] lg:min-h-full">
+          <Image
+            src="/hero-nokia.png"
+            alt="Worn Nokia feature phone showing a USSD menu: 1 Send money, 2 Receive money"
+            fill
+            priority
+            sizes="(min-width: 1024px) 58vw, 100vw"
+            className="object-cover object-[center_20%] lg:object-center"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 left-0 hidden w-24 bg-gradient-to-r from-[#1A140C] to-transparent lg:block"
+          />
+        </div>
+      </section>
+
+      <footer
+        className={`${plexMono.className} flex gap-6 px-6 py-6 text-xs text-[#C4A574] sm:px-10 lg:px-14`}
+      >
+        <Link href="/till" className="underline underline-offset-4">
+          Open till
         </Link>
-      </nav>
+        <Link href="/ops" className="underline underline-offset-4">
+          Operator
+        </Link>
+      </footer>
     </main>
   );
 }
