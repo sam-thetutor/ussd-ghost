@@ -35,7 +35,7 @@ function asPlain(body: string, hop: string, status = 200): Response {
   return new Response(trimmed, {
     status,
     headers: {
-      "Content-Type": "text/plain; charset=utf-8",
+      "Content-Type": "text/plain",
       "at-ussd-hop-metadata": hop.slice(0, 99).replaceAll("|", "-"),
       "Cache-Control": "no-store",
     },
