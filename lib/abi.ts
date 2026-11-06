@@ -12,6 +12,7 @@ export const gatewayAbi = parseAbi([
   "function settle(bytes32 invoiceId, address from, address to, uint256 value, uint256 validAfter, uint256 validBefore, bytes32 nonce, uint8 v, bytes32 r, bytes32 s)",
   "function paused() view returns (bool)",
   "function payerAllowed(address) view returns (bool)",
+  "function setPayer(address payer, bool allowed)",
   "function amountCap() view returns (uint256)",
   "event Settled(bytes32 indexed invoiceId, address indexed from, address indexed to, uint256 value)",
 ]);

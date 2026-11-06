@@ -86,7 +86,7 @@ export function OpsShell() {
     <div className="mx-auto flex w-full max-w-2xl flex-col gap-5 font-mono">
       <header>
         <p className="text-xs uppercase tracking-widest text-[#e2b04a]">Operator console</p>
-        <h1 className="font-sans text-2xl font-semibold">USSD Ghost /ops</h1>
+        <h1 className="font-sans text-2xl font-semibold">USend /ops</h1>
         <p className="text-xs text-[#f5d76e]">USSD simulator — not a live MNO session.</p>
       </header>
 

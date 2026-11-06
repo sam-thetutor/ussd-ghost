@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { SimulatorBanner } from "@/components/SimulatorBanner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "USSD Ghost — simulated USSD, real Whitechain settlement",
+  title: "USend — sending stablecoins using USSD codes",
   description:
-    "Kiosk till payments the payer approves like USSD. USSD simulator — not a live MNO session. Prize USDT on Whitechain Sepolia.",
+    "USend: sending stablecoins using USSD codes. Africa's Talking sandbox is not a live MNO. Prize USDT on Whitechain Sepolia is real.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -26,7 +25,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <SimulatorBanner />
         {children}
       </body>
     </html>

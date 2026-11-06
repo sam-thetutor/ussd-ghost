@@ -5,7 +5,7 @@ import { requiredEnv } from "./keys";
 export const DEMO_TILL = process.env.DEMO_TILL || "123456";
 export const DEMO_PHONE = process.env.DEMO_PHONE || "+254700000001";
 export const TILL_NAME = "Mama Amina Kiosk";
-export const SERVICE_CODE = "*384*71#";
+export const SERVICE_CODE = "*384*71618#";
 export const AMOUNT_CAP = BigInt(100) * BigInt(1_000_000);
 export const RELAYER_MIN_WBT = BigInt(10) ** BigInt(16); // 0.01 WBT
 export const INVOICE_TTL_SEC = 15 * 60;
