@@ -78,6 +78,12 @@ export async function POST(request: Request) {
   }
 
   const phoneNumber = fields.phoneNumber.replace(/\s+/g, "");
+  console.log("ussd POST", {
+    sessionId: fields.sessionId.slice(0, 12),
+    serviceCode: fields.serviceCode,
+    text: fields.text,
+    ua: request.headers.get("user-agent") || "",
+  });
   if (!fields.sessionId || !phoneNumber) {
     // AT terminates on HTTP 40x. Always 200 with END.
     return asPlain("END Bad request. You were not charged.", "BadRequest:end");

@@ -81,7 +81,7 @@ Samuel must click (we cannot log into AT for you):
 4. Set **callback / invoke URL** to `https://kits-bridges-euro-counters.trycloudflare.com/api/ussd`
 5. Open https://simulator.africastalking.com:1517/ — AT is explicit: sandbox traffic is in this web simulator, **not a handset**.
 6. Register a phone number. Prefer `+254700000001`. If “already in use,” pick another; PIN still settles the demo payer EOA.
-7. Launch the simulated device → **USSD** → dial the **exact** service code from step 3.
+7. Launch the simulated device → **USSD** → type **`*384*71618#`** (shared `*384#` + channel `71618`). Not `*384#` (that is AT’s default “You have reached Africa's Talking USSD Services”). Not `71618` alone.
 8. On `/till`, open a 5.00 or 10.00 invoice first. Then Pay merchant → till `123456` → amount → PIN `2580`.
 
 Backup web phone (same `/api/ussd`): https://kits-bridges-euro-counters.trycloudflare.com/phone  
