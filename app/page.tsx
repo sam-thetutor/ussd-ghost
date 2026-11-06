@@ -55,7 +55,7 @@ export default function Home() {
 
         <div className="relative min-h-[22rem] lg:min-h-full">
           <Image
-            src="/hero-nokia.png"
+            src="/hero-nokia-usend.png"
             alt="Worn Nokia feature phone showing a USSD menu: USend, 1 Send money, 2 Receive money"
             fill
             priority
