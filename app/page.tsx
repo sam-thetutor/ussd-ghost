@@ -21,7 +21,7 @@ export default function Home() {
     <main
       className={`${figtree.className} flex flex-1 flex-col bg-[#1A140C] text-[#F4EBD8]`}
     >
-      <section className="grid min-h-[min(78vh,44rem)] flex-1 grid-cols-1 lg:grid-cols-[minmax(0,42fr)_minmax(0,58fr)]">
+      <section className="grid min-h-[min(70vh,38rem)] grid-cols-1 lg:grid-cols-[minmax(0,42fr)_minmax(0,58fr)]">
         <div className="flex flex-col justify-center gap-5 px-6 py-12 sm:px-10 lg:px-14 lg:py-16">
           <p
             className={`${plexMono.className} text-[11px] font-medium uppercase tracking-[0.28em] text-[#F4EBD8]/70`}
@@ -69,6 +69,57 @@ export default function Home() {
             className="pointer-events-none absolute inset-y-0 left-0 hidden w-24 bg-gradient-to-r from-[#1A140C] to-transparent lg:block"
           />
         </div>
+      </section>
+
+      <section className="border-t border-[#3C2A1E] px-6 py-14 sm:px-10 lg:px-14 lg:py-16">
+        <ol className="grid gap-12 lg:grid-cols-3 lg:gap-10">
+          <li className="space-y-3">
+            <p
+              className={`${plexMono.className} text-[11px] font-medium uppercase tracking-[0.22em] text-[#B42318]`}
+            >
+              01
+            </p>
+            <h2 className="text-2xl font-extrabold leading-snug tracking-tight text-white">
+              Most payers use a feature phone.
+            </h2>
+            <p className="text-sm leading-6 text-[#C4A574] sm:text-base">
+              No smartphone. No data. A shared handset. They already know USSD.
+            </p>
+          </li>
+          <li className="space-y-3">
+            <p
+              className={`${plexMono.className} text-[11px] font-medium uppercase tracking-[0.22em] text-[#B42318]`}
+            >
+              02
+            </p>
+            <h2 className="text-2xl font-extrabold leading-snug tracking-tight text-white">
+              A crypto wallet asks for a seed. A telco rail can reverse.
+            </h2>
+            <p className="text-sm leading-6 text-[#C4A574] sm:text-base">
+              A wallet wants a seed. A telco rail can send it back. Neither is
+              this payment.
+            </p>
+          </li>
+          <li className="space-y-3">
+            <p
+              className={`${plexMono.className} text-[11px] font-medium uppercase tracking-[0.22em] text-[#B42318]`}
+            >
+              03
+            </p>
+            <h2 className="text-2xl font-extrabold leading-snug tracking-tight text-white">
+              Dial USSD. A relayer pays gas. Prize USDT on Whitechain.
+            </h2>
+            <p className="text-sm leading-6 text-[#C4A574] sm:text-base">
+              Never a crypto app.
+            </p>
+          </li>
+        </ol>
+        <p
+          className={`${plexMono.className} mt-12 max-w-2xl text-xs leading-5 text-[#C4A574]`}
+        >
+          Africa&apos;s Talking sandbox is not a live MNO. The Whitechain
+          payment is real.
+        </p>
       </section>
 
       <footer
