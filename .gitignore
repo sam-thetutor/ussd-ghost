@@ -54,3 +54,4 @@ out/
 # secrets / local
 *.keystore
 lcov.info
+/data/

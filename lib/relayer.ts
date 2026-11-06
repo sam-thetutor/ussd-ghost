@@ -10,6 +10,7 @@ import { getPublicClient, getWalletClient } from "./chain";
 import { demoPayerAddress, RELAYER_MIN_WBT } from "./demo-state";
 import { signTransferWithAuthorization, randomNonce } from "./eip3009";
 import { rememberInvoice } from "./invoices";
+import { privateKeyToAccount } from "viem/accounts";
 import { privateKey } from "./keys";
 import { evaluatePolicy, type InvoiceView } from "./policy";
 import { pushReject, type RejectReason } from "./reject-log";
@@ -46,6 +47,7 @@ export async function settleInvoice(opts: {
   from: Address;
   to: Address;
   value: bigint;
+  fromKey?: Hex;
   drain?: boolean;
 }): Promise<SettleResult> {
   if (opts.drain) {
@@ -138,7 +140,17 @@ export async function settleInvoice(opts: {
 
   const validAfter = BigInt(0);
   const validBefore = BigInt(nowSec + 15 * 60);
-  const signed = await signTransferWithAuthorization(privateKey("PAYER_CUSTODY_KEY"), {
+  const fromKey = opts.fromKey ?? privateKey("PAYER_CUSTODY_KEY");
+  if (privateKeyToAccount(fromKey).address.toLowerCase() !== opts.from.toLowerCase()) {
+    const entry = pushReject({
+      reason: "payer_not_allowed",
+      detail: "Custody key does not match payer",
+      invoiceId: opts.invoiceId,
+    });
+    return { ok: false, reason: entry.reason, detail: entry.detail };
+  }
+
+  const signed = await signTransferWithAuthorization(fromKey, {
     from: opts.from,
     to: opts.to,
     value: opts.value,

@@ -69,59 +69,95 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-t border-[#3C2A1E] px-6 py-14 sm:px-10 lg:px-14 lg:py-16">
-        <ol className="grid gap-12 lg:grid-cols-3 lg:gap-10">
-          <li className="space-y-3">
-            <p
-              className={`${plexMono.className} text-[11px] font-medium uppercase tracking-[0.22em] text-[#B42318]`}
-            >
-              01
-            </p>
-            <h2 className="text-2xl font-extrabold leading-snug tracking-tight text-white">
-              Most payers use a feature phone.
-            </h2>
-            <p className="text-sm leading-6 text-[#C4A574] sm:text-base">
-              No smartphone. No data. A shared handset. They already know USSD.
-            </p>
-          </li>
-          <li className="space-y-3">
-            <p
-              className={`${plexMono.className} text-[11px] font-medium uppercase tracking-[0.22em] text-[#B42318]`}
-            >
-              02
-            </p>
-            <h2 className="text-2xl font-extrabold leading-snug tracking-tight text-white">
-              A crypto wallet asks for a seed. A telco rail can reverse.
-            </h2>
-            <p className="text-sm leading-6 text-[#C4A574] sm:text-base">
-              A wallet wants a seed. A telco rail can send it back. Neither is
-              this payment.
-            </p>
-          </li>
-          <li className="space-y-3">
-            <p
-              className={`${plexMono.className} text-[11px] font-medium uppercase tracking-[0.22em] text-[#B42318]`}
-            >
-              03
-            </p>
-            <h2 className="text-2xl font-extrabold leading-snug tracking-tight text-white">
-              Dial USSD. A relayer pays gas. Prize USDT on Whitechain.
-            </h2>
-            <p className="text-sm leading-6 text-[#C4A574] sm:text-base">
-              Never a crypto app.
-            </p>
-          </li>
-        </ol>
-        <p
-          className={`${plexMono.className} mt-12 max-w-2xl text-xs leading-5 text-[#C4A574]`}
-        >
-          Africa&apos;s Talking sandbox is not a live MNO. The Whitechain
-          payment is real.
-        </p>
+      <section
+        id="how-it-works"
+        className="flex-1 bg-[#F4EBD8] text-[#1A140C]"
+      >
+        <div className="h-2 bg-[#3C2A1E]" aria-hidden />
+        <div className="px-6 py-14 sm:px-10 lg:px-14 lg:py-16">
+          <p
+            className={`${plexMono.className} text-[11px] font-medium uppercase tracking-[0.22em] text-[#B42318]`}
+          >
+            How it works
+          </p>
+          <h2 className="mt-3 max-w-[18ch] text-3xl font-extrabold tracking-tight sm:text-4xl">
+            Activate. Send to a code. Relayer pays gas.
+          </h2>
+          <p className="mt-3 max-w-xl text-base leading-6 text-[#3C2A1E]">
+            Each phone gets a numeric code and a hidden wallet. Dial USSD to
+            send prize USDT. USend&apos;s relayer pays WBT.
+          </p>
+
+          <ol className="mt-12 grid gap-0 border-y border-[#3C2A1E] lg:grid-cols-3">
+            <li className="flex flex-col gap-4 border-[#3C2A1E] py-8 lg:border-r lg:pr-10 lg:py-10">
+              <p
+                className={`${plexMono.className} text-[11px] font-medium uppercase tracking-[0.22em] text-[#B42318]`}
+              >
+                1. Activate
+              </p>
+              <h3 className="text-2xl font-extrabold tracking-tight">
+                Dial 2. Get your code.
+              </h3>
+              <p className="text-sm leading-6 text-[#3C2A1E] sm:text-base">
+                USSD maps the phone to a custodied address. You see a numeric
+                code and a balance. No seed. No app.
+              </p>
+            </li>
+
+            <li className="flex flex-col gap-4 border-t border-[#3C2A1E] py-8 lg:border-t-0 lg:border-r lg:px-10 lg:py-10">
+              <p
+                className={`${plexMono.className} text-[11px] font-medium uppercase tracking-[0.22em] text-[#B42318]`}
+              >
+                2. Send
+              </p>
+              <h3 className="text-2xl font-extrabold tracking-tight">
+                Enter their code, amount, PIN.
+              </h3>
+              <p className="text-sm leading-6 text-[#3C2A1E] sm:text-base">
+                Dial {AT_DIAL}. Pay to a code, not a till invoice. Hang up and
+                the session dies — shared-phone property, not a bug.
+              </p>
+              <a
+                href={AT_SIMULATOR}
+                className="mt-auto inline-flex w-fit min-h-12 items-center justify-center rounded-full bg-[#B42318] px-6 py-3 text-base font-semibold text-[#F4EBD8]"
+              >
+                Dial {AT_DIAL}
+              </a>
+            </li>
+
+            <li className="flex flex-col gap-4 border-t border-[#3C2A1E] py-8 lg:border-t-0 lg:pl-10 lg:py-10">
+              <p
+                className={`${plexMono.className} text-[11px] font-medium uppercase tracking-[0.22em] text-[#B42318]`}
+              >
+                3. Relayer
+              </p>
+              <h3 className="text-2xl font-extrabold tracking-tight">
+                USend pays the gas.
+              </h3>
+              <p className="text-sm leading-6 text-[#3C2A1E] sm:text-base">
+                Backend opens a 15-minute invoice to their address, then
+                GhostGateway.settle. Relayer spends WBT. Payer WBT stays zero.
+              </p>
+              <Link
+                href="/ops"
+                className={`${plexMono.className} mt-auto text-sm underline underline-offset-4`}
+              >
+                Operator
+              </Link>
+            </li>
+          </ol>
+
+          <p
+            className={`${plexMono.className} mt-10 max-w-2xl text-xs leading-5 text-[#3C2A1E]`}
+          >
+            Africa&apos;s Talking sandbox is not a live MNO. The Whitechain
+            payment is real. Dial {AT_DIAL} at the simulator.
+          </p>
+        </div>
       </section>
 
       <footer
-        className={`${plexMono.className} flex gap-6 px-6 py-6 text-xs text-[#C4A574] sm:px-10 lg:px-14`}
+        className={`${plexMono.className} flex gap-6 bg-[#F4EBD8] px-6 py-6 text-xs text-[#3C2A1E] sm:px-10 lg:px-14`}
       >
         <Link href="/till" className="underline underline-offset-4">
           Open till
