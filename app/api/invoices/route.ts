@@ -6,24 +6,46 @@ import { INVOICE_TTL_SEC, payerHint, DEMO_PHONE } from "@/lib/demo-state";
 import { randomNonce } from "@/lib/eip3009";
 import { listRememberedInvoices, readInvoice, rememberInvoice } from "@/lib/invoices";
 import { privateKey } from "@/lib/keys";
+import {
+  RATE,
+  clientIp,
+  jsonRateLimited,
+  rateLimit,
+  rateLimitHeaders,
+} from "@/lib/rate-limit";
 
 export async function GET(request: Request) {
+  const limited = rateLimit(
+    `invoice:get:${clientIp(request)}`,
+    RATE.invoiceGet.limit,
+    RATE.invoiceGet.windowMs,
+  );
+  if (!limited.ok) return jsonRateLimited(limited);
   const url = new URL(request.url);
   const id = url.searchParams.get("id");
   try {
     if (id) {
       const row = await readInvoice(id as Hex);
-      return Response.json({ invoice: row });
+      return Response.json({ invoice: row }, { headers: rateLimitHeaders(limited) });
     }
     const invoices = await listRememberedInvoices();
-    return Response.json({ invoices });
+    return Response.json({ invoices }, { headers: rateLimitHeaders(limited) });
   } catch (error) {
     const message = error instanceof Error ? error.message : "invoice read failed";
-    return Response.json({ invoices: [], error: message }, { status: 200 });
+    return Response.json(
+      { invoices: [], error: message },
+      { status: 200, headers: rateLimitHeaders(limited) },
+    );
   }
 }
 
 export async function POST(request: Request) {
+  const limited = rateLimit(
+    `invoice:post:${clientIp(request)}`,
+    RATE.invoicePost.limit,
+    RATE.invoicePost.windowMs,
+  );
+  if (!limited.ok) return jsonRateLimited(limited);
   const body = (await request.json()) as { amount?: string; note?: string };
   if (!body.amount) {
     return Response.json({ error: "amount required" }, { status: 400 });
@@ -69,5 +91,5 @@ export async function POST(request: Request) {
   await getPublicClient().waitForTransactionReceipt({ hash });
   rememberInvoice({ invoiceId, note: body.note || "", openTx: hash });
   const invoice = await readInvoice(invoiceId);
-  return Response.json({ invoice, txHash: hash });
+  return Response.json({ invoice, txHash: hash }, { headers: rateLimitHeaders(limited) });
 }

@@ -1,4 +1,10 @@
 import { handleUssd } from "@/lib/ussd-engine";
+import {
+  RATE,
+  clientIp,
+  rateLimit,
+  rateLimitHeaders,
+} from "@/lib/rate-limit";
 
 export const maxDuration = 15;
 
@@ -30,7 +36,12 @@ function hopMetadata(text: string, body: string): string {
   return `Other:${kind}`;
 }
 
-function asPlain(body: string, hop: string, status = 200): Response {
+function asPlain(
+  body: string,
+  hop: string,
+  status = 200,
+  extra: Record<string, string> = {},
+): Response {
   const trimmed = body.startsWith("CON ") || body.startsWith("END ") ? body : `END ${body}`;
   return new Response(trimmed, {
     status,
@@ -38,8 +49,22 @@ function asPlain(body: string, hop: string, status = 200): Response {
       "Content-Type": "text/plain",
       "at-ussd-hop-metadata": hop.slice(0, 99).replaceAll("|", "-"),
       "Cache-Control": "no-store",
+      ...extra,
     },
   });
+}
+
+function limitUssd(request: Request, phone: string) {
+  const ip = clientIp(request);
+  const byIp = rateLimit(`ussd:ip:${ip}`, RATE.ussdIp.limit, RATE.ussdIp.windowMs);
+  if (!byIp.ok) return byIp;
+  if (!phone) return byIp;
+  const byPhone = rateLimit(
+    `ussd:phone:${phone}`,
+    RATE.ussdPhone.limit,
+    RATE.ussdPhone.windowMs,
+  );
+  return byPhone.ok ? byIp : byPhone;
 }
 
 async function readFields(request: Request): Promise<AtFields> {
@@ -65,8 +90,17 @@ async function readFields(request: Request): Promise<AtFields> {
   };
 }
 
-export async function GET() {
-  return asPlain(`END ${CALLBACK_HELP}`, "Health:end");
+export async function GET(request: Request) {
+  const limited = limitUssd(request, "health");
+  if (!limited.ok) {
+    return asPlain(
+      "END Try again. You were not charged.",
+      "RateLimited:end",
+      200,
+      rateLimitHeaders(limited),
+    );
+  }
+  return asPlain(`END ${CALLBACK_HELP}`, "Health:end", 200, rateLimitHeaders(limited));
 }
 
 export async function POST(request: Request) {
@@ -78,6 +112,17 @@ export async function POST(request: Request) {
   }
 
   const phoneNumber = fields.phoneNumber.replace(/\s+/g, "");
+  const limited = limitUssd(request, phoneNumber);
+  if (!limited.ok) {
+    // AT drops the session on HTTP 40x. Stay on 200 with END.
+    return asPlain(
+      "END Try again. You were not charged.",
+      "RateLimited:end",
+      200,
+      rateLimitHeaders(limited),
+    );
+  }
+
   console.log("ussd POST", {
     sessionId: fields.sessionId.slice(0, 12),
     serviceCode: fields.serviceCode,
@@ -96,9 +141,14 @@ export async function POST(request: Request) {
       serviceCode: fields.serviceCode,
       text: fields.text,
     });
-    return asPlain(body, hopMetadata(fields.text, body));
+    return asPlain(body, hopMetadata(fields.text, body), 200, rateLimitHeaders(limited));
   } catch (error) {
     console.error("ussd callback failed", error instanceof Error ? error.message : "error");
-    return asPlain("END Try again. You were not charged.", "Error:end");
+    return asPlain(
+      "END Try again. You were not charged.",
+      "Error:end",
+      200,
+      rateLimitHeaders(limited),
+    );
   }
 }

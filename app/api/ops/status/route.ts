@@ -6,6 +6,12 @@ import { demoPayerAddress } from "@/lib/demo-state";
 import { allowlistAddresses } from "@/lib/policy";
 import { listRejects } from "@/lib/reject-log";
 import { checkOpsPassword } from "@/lib/pin";
+import {
+  RATE,
+  clientIp,
+  jsonRateLimited,
+  rateLimit,
+} from "@/lib/rate-limit";
 
 function addr(name: string): `0x${string}` | null {
   const value = process.env[name];
@@ -39,6 +45,12 @@ async function lastInboundWbt(treasury: `0x${string}` | null) {
 }
 
 export async function GET(request: Request) {
+  const limited = rateLimit(
+    `ops:status:${clientIp(request)}`,
+    RATE.opsStatus.limit,
+    RATE.opsStatus.windowMs,
+  );
+  if (!limited.ok) return jsonRateLimited(limited);
   const password = request.headers.get("x-ops-password");
   if (!checkOpsPassword(password, "OPS_PASSWORD")) {
     return Response.json({ error: "unauthorized" }, { status: 401 });
