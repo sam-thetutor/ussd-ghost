@@ -46,7 +46,7 @@ we are not a licensed PSP.
 - Demo payer EOA (ops / debug only, never `/phone`): 0x5690A6E8a3882C333f7E8451a3387a0C4a13d001
 - Deployer: 0x3C2150495B277058921CEA9D87132f6168Dc4c2d
 - Qualification payment: _blocked — no prize USDT on any key we control. Do not mint. Do not use USDT.e._
-- Treasury WBT source: 2 WBT received from `0xf203217d375e2ae535e0527a623150a32fe8f508` in [0x3b0ba0…](https://explorer.testnet.whitechain.io/tx/0x3b0ba0103b4e88fa95c98eedf14d080265abb9c58caa3120fdb1aeb176e00017) (not the GitHub faucet UI; that still needs Samuel’s browser login + captcha). Relayer top-up: [0x90f69e…](https://explorer.testnet.whitechain.io/tx/0x90f69ec5547c717704ed8e50a43f2cc6d79d7f63c31a92d6a9819b14512516ba) (0.05 WBT).
+- Treasury WBT source: 2 WBT from faucet dispenser `0xf203217d375e2ae535e0527a623150a32fe8f508` in [0x3b0ba0…](https://explorer.testnet.whitechain.io/tx/0x3b0ba0103b4e88fa95c98eedf14d080265abb9c58caa3120fdb1aeb176e00017). Relayer top-ups: [0x90f69e…](https://explorer.testnet.whitechain.io/tx/0x90f69ec5547c717704ed8e50a43f2cc6d79d7f63c31a92d6a9819b14512516ba) (0.05) then [0xa4c4e4…](https://explorer.testnet.whitechain.io/tx/0xa4c4e47ed105a5b0cc58f50d964785586e62ae7c50508d27eecdd4ca78e1315d) (0.05).
 
 Wrong token: `0xaa7962d073935D387e8d442DA1D7149C81388f46` is **USDT.e**. Paying it does not qualify.
 

@@ -1,6 +1,6 @@
 import { formatEther, formatUnits } from "viem";
 import { usdtAbi } from "@/lib/abi";
-import { explorerAddress, PRIZE_USDT } from "@/lib/addresses";
+import { explorerAddress, explorerTx, PRIZE_USDT } from "@/lib/addresses";
 import { getPublicClient } from "@/lib/chain";
 import { demoPayerAddress } from "@/lib/demo-state";
 import { allowlistAddresses } from "@/lib/policy";
@@ -10,6 +10,32 @@ import { checkOpsPassword } from "@/lib/pin";
 function addr(name: string): `0x${string}` | null {
   const value = process.env[name];
   return value ? (value as `0x${string}`) : null;
+}
+
+async function lastInboundWbt(treasury: `0x${string}` | null) {
+  if (!treasury) return null;
+  try {
+    const res = await fetch(
+      `https://explorer.testnet.whitechain.io/api?module=account&action=txlist&address=${treasury}`,
+    );
+    const data = (await res.json()) as {
+      result?: { hash: string; from: string; to: string; value: string; timeStamp: string }[];
+    };
+    const txs = Array.isArray(data.result) ? data.result : [];
+    const inbound = txs.find(
+      (tx) => tx.to?.toLowerCase() === treasury.toLowerCase() && tx.value !== "0",
+    );
+    if (!inbound) return null;
+    return {
+      hash: inbound.hash,
+      from: inbound.from,
+      explorer: explorerTx(inbound.hash),
+      wbt: formatEther(BigInt(inbound.value)),
+      at: new Date(Number(inbound.timeStamp) * 1000).toISOString(),
+    };
+  } catch {
+    return null;
+  }
 }
 
 export async function GET(request: Request) {
@@ -39,7 +65,7 @@ export async function GET(request: Request) {
     return formatUnits(bal, 6);
   }
 
-  const [treasuryWbt, relayerWbt, payerWbt, relayerUsdt, payerUsdt, merchantUsdt, treasuryUsdt] =
+  const [treasuryWbt, relayerWbt, payerWbt, relayerUsdt, payerUsdt, merchantUsdt, treasuryUsdt, lastWbt] =
     await Promise.all([
       wbt(treasury),
       wbt(relayer),
@@ -48,6 +74,7 @@ export async function GET(request: Request) {
       usdt(payer),
       usdt(merchant),
       usdt(treasury),
+      lastInboundWbt(treasury),
     ]);
 
   return Response.json({
@@ -58,7 +85,7 @@ export async function GET(request: Request) {
       url: "https://faucet.testnet.whitechain.io",
       drip: "0.5 WBT / 24h",
       githubDays: 30,
-      lastClaim: null,
+      lastClaim: lastWbt,
       note: "GitHub OAuth + Cloudflare captcha. Claim to treasury. Does not drip USDT.",
     },
     balances: {

@@ -1,4 +1,5 @@
-import { formatUnits, parseUnits } from "viem";
+import { parseUnits } from "viem";
+import { formatUsdt } from "./format";
 import { usdtAbi } from "./abi";
 import { PRIZE_USDT } from "./addresses";
 import { getPublicClient } from "./chain";
@@ -77,7 +78,7 @@ export async function handleUssd(input: {
       functionName: "balanceOf",
       args: [demoPayerAddress()],
     });
-    return end(`Bal ${formatUnits(bal, 6)}`);
+    return end(`Bal ${formatUsdt(bal)}`);
   }
 
   if (choice === "3") {
@@ -118,7 +119,7 @@ export async function handleUssd(input: {
 
   if (parts.length === 3) {
     return con(
-      `Pay ${formatUnits(amount, 6)} to ${shop.name}\nFee: 0. No extra charge.\nEnter PIN`,
+      `Pay ${formatUsdt(amount)} to ${shop.name}\nFee: 0. No extra charge.\nEnter PIN`,
     );
   }
 
@@ -161,13 +162,13 @@ export async function handleUssd(input: {
   const stamp = new Date().toISOString().slice(5, 10).replace("-", "");
   statements.unshift({
     at: stamp,
-    amount: formatUnits(amount, 6),
+    amount: formatUsdt(amount),
     ref: result.ref,
     till: TILL_NAME,
   });
   clearUssdSession(input.sessionId);
   return end(
-    `Confirmed. ${formatUnits(amount, 6)} paid to ${TILL_NAME}. Ref ${result.ref}`,
+    `Confirmed. ${formatUsdt(amount)} paid to ${TILL_NAME}. Ref ${result.ref}`,
   );
 }
 
