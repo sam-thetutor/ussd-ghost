@@ -9,10 +9,10 @@ export default function Home() {
         </p>
         <h1 className="text-4xl font-semibold tracking-tight">USSD Ghost</h1>
         <p className="max-w-xl text-lg leading-8 text-[#d7c9a8]">
-          A kiosk till the payer approves on a phone-number / USSD-like screen.
-          They never open a crypto app, never hold WBT, never see a seed or a
-          chain. A relayer pays gas. Settlement is prize USDT on Whitechain
-          Sepolia.
+          A kiosk till the payer approves like USSD. They never open a crypto
+          app, never hold WBT, never see a seed or a chain. A relayer pays gas.
+          Settlement is prize USDT on Whitechain Sepolia. The Africa&apos;s
+          Talking hop is a sandbox simulator, not a live MNO.
         </p>
         <p className="rounded-md border border-yellow-700/40 bg-black/40 px-4 py-3 font-mono text-sm text-[#f5d76e]">
           USSD simulator — not a live MNO session. The telco hop is fake; the
@@ -28,14 +28,24 @@ export default function Home() {
           </a>
         </p>
       </header>
-      <nav className="grid gap-4 sm:grid-cols-3">
+      <nav className="grid gap-4 sm:grid-cols-2">
+        <a
+          href="https://simulator.africastalking.com:1517/"
+          className="rounded-xl border border-[#3d3428] bg-[#1c1813] p-5 transition hover:border-[#e2b04a]"
+        >
+          <h2 className="text-lg font-medium">Africa&apos;s Talking</h2>
+          <p className="mt-2 text-sm text-[#b9aa8e]">
+            Primary payer simulator. Register a sandbox number, then dial the
+            channel from the dashboard. Not a live MNO.
+          </p>
+        </a>
         <Link
           href="/phone"
           className="rounded-xl border border-[#3d3428] bg-[#1c1813] p-5 transition hover:border-[#e2b04a]"
         >
           <h2 className="text-lg font-medium">/phone</h2>
           <p className="mt-2 text-sm text-[#b9aa8e]">
-            Payer. Dial *384*71#. No wallet connect.
+            Backup web feature-phone. Same /api/ussd engine. Dial *384*71#.
           </p>
         </Link>
         <Link

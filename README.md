@@ -4,8 +4,9 @@ Kiosk till payments the payer approves like USSD. They never open a crypto app,
 never hold WBT, never see a seed or a chain. A relayer pays gas in WBT.
 Settlement is prize USDT on Whitechain Sepolia.
 
-**USSD is simulated.** The `/phone` screen is a web feature-phone frame, not a
-live Safaricom / Airtel / MTN session. Settlement on Whitechain is real.
+**USSD is simulated.** Africa's Talking sandbox + `/phone` are simulators, not a
+live MNO session. Settlement on Whitechain is real. We are not integrated with
+a national operator.
 
 Regular track · ETHGlobal Mumbai · Whitechain Scale · Payments Nobody Notices.
 
@@ -24,7 +25,8 @@ we are not a licensed PSP.
 
 ## Architecture
 
-- `/phone` — payer USSD simulator (CON/END). No chain UI.
+- Africa's Talking sandbox — **primary payer path** (simulator, not a live MNO). Callback `POST /api/ussd`.
+- `/phone` — backup web feature-phone. Same engine. No chain UI.
 - `/till` — Mama Amina kiosk. Invoice + explorer receipt.
 - `/ops` — treasury → relayer WBT, allowlist, drain drill, demo cash-in.
 - `GhostInvoiceRegistry` + `GhostGateway` on 1874.
@@ -55,18 +57,39 @@ Wrong token: `0xaa7962d073935D387e8d442DA1D7149C81388f46` is **USDT.e**. Paying 
 
 1. Copy `.env.example` → `.env.local`. Do not put private keys in `NEXT_PUBLIC_*`.
 2. `npm install` && `npm run dev`
-3. Open /phone /till /ops. Dial *384*71# on /phone.
-4. Contracts: Foundry, see foundry.toml. Verify via Blockscout API.
+3. Primary: Africa's Talking sandbox simulator (steps below). Backup: `/phone` dial `*384*71#`.
+4. Merchant `/till`, operator `/ops`.
+5. Contracts: Foundry, see foundry.toml. Verify via Blockscout API.
 
-Demo till `123456` (Mama Amina Kiosk). Demo MSISDN `+254700000001`. Demo PIN `2580` (also shown in `/ops` after login, never on `/phone`).
+Demo till `123456` (Mama Amina Kiosk). Demo MSISDN `+254700000001` (any AT sandbox number still debits this custodied EOA after PIN). Demo PIN `2580` (shown in `/ops` after login, never on `/phone`).
 
 Public repo: https://github.com/sam-thetutor/ussd-ghost
 
-Public demo (Cloudflare tunnel in front of this machine’s Next.js; Vercel CLI is not logged in):
-- https://kits-bridges-euro-counters.trycloudflare.com/phone
-- https://kits-bridges-euro-counters.trycloudflare.com/till
-- https://kits-bridges-euro-counters.trycloudflare.com/ops
-- backup: https://958f-115-242-77-215.ngrok-free.app/phone
+## Africa's Talking sandbox (Path C — primary payer, still a simulator)
+
+Callback URL (paste this in the AT dashboard, public HTTPS):
+
+`https://kits-bridges-euro-counters.trycloudflare.com/api/ussd`
+
+`POST application/x-www-form-urlencoded` with `sessionId`, `phoneNumber`, `networkCode`, `serviceCode`, `text`. First hop has empty `text`. Reply is `text/plain` starting with `CON ` or `END `. USSD simulator — not a live MNO session.
+
+Samuel must click (we cannot log into AT for you):
+
+1. Sign up / open the **Sandbox** app (not live): https://account.africastalking.com/apps/sandbox
+2. Create an API key if the dashboard asks (the phone does not send it; the dashboard may).
+3. **Sandbox → USSD → Create channel.** Pick a channel (example `71`). Copy the **exact** service code the dashboard prints (often like `*384*71#`). Do not invent it.
+4. Set **callback / invoke URL** to `https://kits-bridges-euro-counters.trycloudflare.com/api/ussd`
+5. Open https://simulator.africastalking.com:1517/ — AT is explicit: sandbox traffic is in this web simulator, **not a handset**.
+6. Register a phone number. Prefer `+254700000001`. If “already in use,” pick another; PIN still settles the demo payer EOA.
+7. Launch the simulated device → **USSD** → dial the **exact** service code from step 3.
+8. On `/till`, open a 5.00 or 10.00 invoice first. Then Pay merchant → till `123456` → amount → PIN `2580`.
+
+Backup web phone (same `/api/ussd`): https://kits-bridges-euro-counters.trycloudflare.com/phone  
+Till: https://kits-bridges-euro-counters.trycloudflare.com/till  
+Ops: https://kits-bridges-euro-counters.trycloudflare.com/ops  
+ngrok backup (browsers may see an interstitial; AT servers may not send the skip header, so **do not** use ngrok as the AT callback): https://958f-115-242-77-215.ngrok-free.app/phone
+
+Vercel CLI is not logged in on this machine. If the Cloudflare tunnel URL rotates, update the AT dashboard callback.
 
 ## Gas, WBT, anti-drain
 
@@ -80,7 +103,7 @@ monetary value.
 
 ## Limitations
 
-- No live MNO shortcode.
+- No live MNO shortcode. Africa's Talking here is sandbox-only.
 - Payer keys are custodied after PIN (mobile-money shaped).
 - Demo USDT in the payer EOA is operator cash-in from treasury (treasury bought it by swapping WBT on YetiTrade). There is no USDT faucet.
 - No cash-out, no licensed agent network, no World ID, no refunds this weekend.
