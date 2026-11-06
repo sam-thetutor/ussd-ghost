@@ -45,8 +45,9 @@ we are not a licensed PSP.
 - Merchant payee: [0xBF3578826CB053c29fd68BD2AD599401BCc14741](https://explorer.testnet.whitechain.io/address/0xBF3578826CB053c29fd68BD2AD599401BCc14741)
 - Demo payer EOA (ops / debug only, never `/phone`): 0x5690A6E8a3882C333f7E8451a3387a0C4a13d001
 - Deployer: 0x3C2150495B277058921CEA9D87132f6168Dc4c2d
-- Qualification payment: _blocked — no prize USDT on any key we control. Do not mint. Do not use USDT.e._
-- Treasury WBT source: 2 WBT from faucet dispenser `0xf203217d375e2ae535e0527a623150a32fe8f508` in [0x3b0ba0…](https://explorer.testnet.whitechain.io/tx/0x3b0ba0103b4e88fa95c98eedf14d080265abb9c58caa3120fdb1aeb176e00017). Relayer top-ups: [0x90f69e…](https://explorer.testnet.whitechain.io/tx/0x90f69ec5547c717704ed8e50a43f2cc6d79d7f63c31a92d6a9819b14512516ba) (0.05) then [0xa4c4e4…](https://explorer.testnet.whitechain.io/tx/0xa4c4e47ed105a5b0cc58f50d964785586e62ae7c50508d27eecdd4ca78e1315d) (0.05).
+- **Qualification payment (S1):** 10 prize USDT, payer → Mama Amina via `GhostGateway.settle` (relayer paid WBT gas): [0x950d71a8679c13c779a8b1b2ac6f81052387719bb7dbeb6dce4712580e2b1b92](https://explorer.testnet.whitechain.io/tx/0x950d71a8679c13c779a8b1b2ac6f81052387719bb7dbeb6dce4712580e2b1b92). Invoice open: [0x0e9260…](https://explorer.testnet.whitechain.io/tx/0x0e9260ff0616b0c5d256fa492a99d4b0bcee69c55c42e18a87d4b9041c2dc52b). Cash-in 15 USDT treasury → demo payer: [0xed7701…](https://explorer.testnet.whitechain.io/tx/0xed77011c960ec98fe7b301ff6b236ac1a373c5a6f53d962dcf69f7a61e61a87c). Token is prize USDT `0xcedf…55a7`, not a self-minted token, not USDT.e.
+- Prize USDT source: swapped native WBT on YetiTrade WWBT/USDT 0.3% pool (not a faucet): [0xc22b0b…](https://explorer.testnet.whitechain.io/tx/0xc22b0b1546ff5825681d61859039e690f87f49c414b2f3c84218987be3e25ee1) then [0xdfe2e4…](https://explorer.testnet.whitechain.io/tx/0xdfe2e48a455162399783c2d94ffd58ef797f9c6ae55da7a9e73ee92c33750bc3).
+- Treasury WBT source: 2 WBT from faucet dispenser `0xf203217d375e2ae535e0527a623150a32fe8f508` in [0x3b0ba0…](https://explorer.testnet.whitechain.io/tx/0x3b0ba0103b4e88fa95c98eedf14d080265abb9c58caa3120fdb1aeb176e00017). Relayer top-ups: [0x90f69e…](https://explorer.testnet.whitechain.io/tx/0x90f69ec5547c717704ed8e50a43f2cc6d79d7f63c31a92d6a9819b14512516ba) (0.05) then [0xa4c4e4…](https://explorer.testnet.whitechain.io/tx/0xa4c4e47ed105a5b0cc58f50d964785586e62ae7c50508d27eecdd4ca78e1315d) (0.05). Relayer already had 0.1 WBT for S1; no extra top-up.
 
 Wrong token: `0xaa7962d073935D387e8d442DA1D7149C81388f46` is **USDT.e**. Paying it does not qualify.
 
@@ -75,7 +76,7 @@ monetary value.
 
 - No live MNO shortcode.
 - Payer keys are custodied after PIN (mobile-money shaped).
-- Demo USDT in the payer EOA is operator cash-in; there is no USDT faucet.
+- Demo USDT in the payer EOA is operator cash-in from treasury (treasury bought it by swapping WBT on YetiTrade). There is no USDT faucet.
 - No cash-out, no licensed agent network, no World ID, no refunds this weekend.
 
 See WHITECHAIN_FEEDBACK.md.

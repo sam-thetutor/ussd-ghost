@@ -18,6 +18,15 @@ export default function Home() {
           USSD simulator — not a live MNO session. The telco hop is fake; the
           Whitechain payment is not.
         </p>
+        <p className="font-mono text-sm text-[#b9aa8e]">
+          Qualification (10 prize USDT on 1874):{" "}
+          <a
+            className="underline decoration-[#e2b04a]/40 underline-offset-4 hover:text-[#e2b04a]"
+            href="https://explorer.testnet.whitechain.io/tx/0x950d71a8679c13c779a8b1b2ac6f81052387719bb7dbeb6dce4712580e2b1b92"
+          >
+            settle 0x950d71…
+          </a>
+        </p>
       </header>
       <nav className="grid gap-4 sm:grid-cols-3">
         <Link

@@ -12,8 +12,7 @@ export const INVOICE_TTL_SEC = 15 * 60;
 
 export function demoPayerAddress(): Address {
   const value = process.env.PAYER_ADDRESS;
-  if (!value) throw new Error("PAYER_ADDRESS is not set");
-  return value as Address;
+  return (value || "0x5690A6E8a3882C333f7E8451a3387a0C4a13d001") as Address;
 }
 
 export function tillLookup(till: string): { name: string; payee: Address } | null {
