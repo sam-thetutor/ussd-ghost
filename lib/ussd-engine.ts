@@ -60,7 +60,7 @@ export async function handleUssd(input: {
 
   if (parts.length === 0) {
     return con(
-      `USSD Ghost\n1. Pay merchant\n2. Balance\n3. Mini statement\n0. Exit`,
+      `USend\n1. Pay merchant\n2. Balance\n3. Mini statement\n0. Exit`,
     );
   }
 

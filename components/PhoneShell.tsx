@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-const SERVICE = "*384*71#";
+const SERVICE = "*384*71618#";
 const BANNER = "USSD simulator — not a live MNO session.";
 
 type Mode = "idle" | "session" | "ended";
@@ -14,7 +14,7 @@ export function PhoneShell() {
   const [sessionId, setSessionId] = useState("");
   const [hops, setHops] = useState<string[]>([]);
   const [buffer, setBuffer] = useState("");
-  const [screen, setScreen] = useState("Dial *384*71#");
+  const [screen, setScreen] = useState("Dial *384*71618#");
   const [busy, setBusy] = useState(false);
 
   const concatenated = useMemo(() => hops.join("*"), [hops]);
@@ -25,7 +25,7 @@ export function PhoneShell() {
     setSessionId("");
     setHops([]);
     setBuffer("");
-    setScreen("Dial *384*71#");
+    setScreen("Dial *384*71618#");
     setBusy(false);
   }, []);
 
@@ -86,7 +86,7 @@ export function PhoneShell() {
     }
     if (mode === "idle") {
       if (dial !== SERVICE) {
-        setScreen("Not a Ghost shortcode.\nTry *384*71#");
+        setScreen("Not a USend shortcode.\nTry *384*71618#");
         return;
       }
       const sid = crypto.randomUUID();

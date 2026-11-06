@@ -1,8 +1,10 @@
-# USSD Ghost
+# USend
 
-Kiosk till payments the payer approves like USSD. They never open a crypto app,
-never hold WBT, never see a seed or a chain. A relayer pays gas in WBT.
-Settlement is prize USDT on Whitechain Sepolia.
+Sending stablecoins using USSD codes.
+
+The payer never opens a crypto app, never holds WBT, never sees a seed or a
+chain. A relayer pays gas in WBT. Settlement is prize USDT on Whitechain
+Sepolia. GitHub repo remains `ussd-ghost`.
 
 **USSD is simulated.** Africa's Talking sandbox (dial `*384*71618#`) is the
 primary payer path. `/phone` is a backup web simulator. Neither is a live MNO

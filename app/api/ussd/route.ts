@@ -3,7 +3,7 @@ import { handleUssd } from "@/lib/ussd-engine";
 export const maxDuration = 15;
 
 const CALLBACK_HELP = [
-  "USSD Ghost Africa's Talking callback.",
+  "USend Africa's Talking callback.",
   "POST application/x-www-form-urlencoded: sessionId, phoneNumber, serviceCode, text.",
   "Replies text/plain CON or END. USSD simulator — not a live MNO session.",
 ].join(" ");
@@ -50,7 +50,7 @@ async function readFields(request: Request): Promise<AtFields> {
       sessionId: json.sessionId || "",
       phoneNumber: json.phoneNumber || "",
       networkCode: json.networkCode || "",
-      serviceCode: json.serviceCode || "*384*71#",
+      serviceCode: json.serviceCode || "*384*71618#",
       text: json.text ?? "",
     };
   }
@@ -60,7 +60,7 @@ async function readFields(request: Request): Promise<AtFields> {
     sessionId: params.get("sessionId") || "",
     phoneNumber: params.get("phoneNumber") || "",
     networkCode: params.get("networkCode") || "",
-    serviceCode: params.get("serviceCode") || "*384*71#",
+    serviceCode: params.get("serviceCode") || "*384*71618#",
     text: params.get("text") ?? "",
   };
 }

@@ -1,4 +1,4 @@
-# Whitechain feedback — USSD Ghost (ETHGlobal Mumbai)
+# Whitechain feedback — USend (ETHGlobal Mumbai)
 
 Regular track. Scale. Simulated USSD. Prize USDT on 1874. No World ID.
 

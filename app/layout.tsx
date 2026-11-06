@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "USSD Ghost — simulated USSD, real Whitechain settlement",
+  title: "USend — sending stablecoins using USSD codes",
   description:
-    "Kiosk till payments the payer approves like USSD. USSD simulator — not a live MNO session. Prize USDT on Whitechain Sepolia.",
+    "USend: sending stablecoins using USSD codes. Africa's Talking sandbox is not a live MNO. Prize USDT on Whitechain Sepolia is real.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

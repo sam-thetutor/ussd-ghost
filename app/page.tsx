@@ -23,21 +23,19 @@ export default function Home() {
     >
       <section className="grid min-h-[min(70vh,38rem)] grid-cols-1 lg:grid-cols-[minmax(0,42fr)_minmax(0,58fr)]">
         <div className="flex flex-col justify-center gap-5 px-6 py-12 sm:px-10 lg:px-14 lg:py-16">
-          <p
-            className={`${plexMono.className} text-[11px] font-medium uppercase tracking-[0.28em] text-[#F4EBD8]/70`}
-          >
-            USSD Ghost
+          <p className="text-sm font-extrabold tracking-[0.28em] text-[#F4EBD8]">
+            USend
           </p>
           <p
             className={`${plexMono.className} text-[11px] font-medium uppercase tracking-[0.22em] text-[#F4EBD8]`}
           >
             Powered by Whitechain
           </p>
-          <h1 className="max-w-[16ch] text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
-            Send and receive money on a feature phone.
+          <h1 className="max-w-[18ch] text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
+            Sending stablecoins using USSD codes.
           </h1>
           <p className="text-lg leading-7 text-[#F4EBD8] sm:text-xl">
-            USSD. No smartphone. No internet.
+            Send and receive on a feature phone. No smartphone. No internet.
           </p>
           <p className="max-w-md text-sm leading-6 text-[#C4A574] sm:text-base">
             Dial a shortcode. Send to a till or receive from one. A relayer pays
