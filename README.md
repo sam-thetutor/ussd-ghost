@@ -62,6 +62,12 @@ Demo till `123456` (Mama Amina Kiosk). Demo MSISDN `+254700000001`. Demo PIN `25
 
 Public repo: https://github.com/sam-thetutor/ussd-ghost
 
+Public demo (Cloudflare tunnel in front of this machine’s Next.js; Vercel CLI is not logged in):
+- https://kits-bridges-euro-counters.trycloudflare.com/phone
+- https://kits-bridges-euro-counters.trycloudflare.com/till
+- https://kits-bridges-euro-counters.trycloudflare.com/ops
+- backup: https://958f-115-242-77-215.ngrok-free.app/phone
+
 ## Gas, WBT, anti-drain
 
 The business pays gas. Faucet WBT (0.5 / 24h, GitHub ≥ 30 days) lands in
