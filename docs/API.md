@@ -2,7 +2,7 @@
 
 Africa’s Talking sandbox callback and JSON helpers. **Not a live MNO.** Dial `*384*71618#` at https://simulator.africastalking.com:1517/. Settlement is prize USDT `0xcedfB56113143d55b2358b8CFbB0dEB5Ad2f55a7` on Whitechain Sepolia (1874). Do not mint. Do not pay USDT.e `0xaa7962d073935D387e8d442DA1D7149C81388f46`.
 
-Live callback: `POST https://kits-bridges-euro-counters.trycloudflare.com/api/ussd`  
+Live callback: `POST https://minds-birds-airport-dozens.trycloudflare.com/api/ussd`  
 Local: `http://localhost:3000`
 
 Rate limits are **real** (in-process sliding window). Headers: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `Retry-After` when blocked.
