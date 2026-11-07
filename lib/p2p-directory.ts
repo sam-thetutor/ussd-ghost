@@ -11,6 +11,7 @@ export type P2pUser = {
   index: number;
   address: Address;
   allowlisted: boolean;
+  pinHash?: string;
 };
 
 type Store = {
@@ -81,7 +82,21 @@ export function findByCode(code: string): P2pUser | undefined {
   return readStore().users.find((u) => u.code === c);
 }
 
-export function allocateUser(phone: string, address: Address, index: number): P2pUser {
+export function resolvePayee(raw: string): P2pUser | undefined {
+  const digits = raw.replace(/\D/g, "");
+  if (digits.length === 6) {
+    const byCode = findByCode(digits);
+    if (byCode) return byCode;
+  }
+  return findByPhone(raw);
+}
+
+export function allocateUser(
+  phone: string,
+  address: Address,
+  index: number,
+  pinHash?: string,
+): P2pUser {
   const store = readStore();
   const existing = store.users.find((u) => u.phone === normalizePhone(phone));
   if (existing) return existing;
@@ -97,6 +112,7 @@ export function allocateUser(phone: string, address: Address, index: number): P2
     index,
     address,
     allowlisted: false,
+    pinHash,
   };
   store.users.push(user);
   store.nextIndex = Math.max(store.nextIndex, index + 1);

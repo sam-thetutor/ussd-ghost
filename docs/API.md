@@ -2,7 +2,7 @@
 
 Africa’s Talking sandbox callback and JSON helpers. **Not a live MNO.** Dial `*384*71618#` at https://simulator.africastalking.com:1517/. Settlement is prize USDT `0xcedfB56113143d55b2358b8CFbB0dEB5Ad2f55a7` on Whitechain Sepolia (1874). Do not mint. Do not pay USDT.e `0xaa7962d073935D387e8d442DA1D7149C81388f46`.
 
-Live callback: `POST https://minds-birds-airport-dozens.trycloudflare.com/api/ussd`  
+Live callback: `POST https://isp-womens-clan-floppy.trycloudflare.com/api/ussd`  
 Local: `http://localhost:3000`
 
 Rate limits are **real** (in-process sliding window). Headers: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `Retry-After` when blocked.
@@ -23,19 +23,30 @@ AT POSTs `application/x-www-form-urlencoded` (JSON also accepted). Always reply 
 | Field | Required | Notes |
 | --- | --- | --- |
 | `sessionId` | yes | AT session. Empty `text` is the first hop. |
-| `phoneNumber` | yes | MSISDN, e.g. `+254700000001`. Maps to a custodied HD EOA after Activate. |
+| `phoneNumber` | yes | MSISDN, e.g. `+254700000001`. A custodied wallet is created on the first completed PIN, not from the digits of the number. |
 | `text` | yes (may be `""`) | Concatenated choices joined by `*`. |
 | `serviceCode` | no | Default `*384*71618#`. |
 | `networkCode` | no | Ignored. |
 
-Header `at-ussd-hop-metadata` is a short hop label (WelcomeMenu, Activate, EnterCode, Settle, RateLimited, …).
+Header `at-ussd-hop-metadata` is a short hop label (WelcomeMenu, Receive, EnterNumber, EnterAmount, EnterPin, Settle, RateLimited, …).
 
-### Menu (P2P)
+### First dial
+
+A phone with no directory row does not see the menu.
+
+| `text` | Reply |
+| --- | --- |
+| `""` | `CON Create a 4-digit PIN` |
+| `{pin}` | `CON Confirm PIN` if the PIN is 4 digits, otherwise `END PIN must be 4 digits.` |
+| `{pin}*{same}` | `END Wallet open.` plus the number, the short code, and the balance. The PIN is stored as a scrypt hash. `setPayer` runs if needed. |
+| `{pin}*{other}` | `END PINs did not match. Dial again.` Nothing is written. |
+
+### Menu, after the wallet exists
 
 ```
 USend
 1. Send
-2. Activate
+2. Receive
 3. Balance
 0. Exit
 ```
@@ -43,17 +54,19 @@ USend
 | `text` | Reply |
 | --- | --- |
 | `""` | `CON` menu |
-| `2` | `END Activated. Code {n}\nBal {usdt}` — issues unique numeric code, `setPayer` if needed |
-| `3` | `END Code {n}\nBal {usdt}` — or `Dial 2 to activate.` |
-| `1` | `CON Enter their code` (must be activated) |
-| `1*{code}` | `CON Code {n}\nEnter amount` |
-| `1*{code}*{amount}` | `CON Pay {amount} to {code}… Enter PIN` |
-| `1*{code}*{amount}*{pin}` | `END Confirmed. … Ref GHO-…` or not-charged error |
+| `2` | `END People pay this number` plus the number and the short code |
+| `3` | `END Code {n}\nBal {usdt}` |
+| `1` | `CON Enter their number` |
+| `1*{number or code}` | `CON Pay {phone}\nEnter amount`. Six digits resolve as a code. Anything else is a phone number. |
+| `1*{who}*{amount}` | `CON Pay {amount} to {phone}… Enter PIN` |
+| `1*{who}*{amount}*{pin}` | `END Confirmed. {amount} sent to {phone}. Ref GHO-…` or a not-charged error |
 | `0` | `END Thank you.` |
 
-Demo: `+254700000001` → code `880001`. `+254700000002` → `880002`. PIN `2580` (ops only, never printed on `/phone`).
+Unknown number, your own number, a bad amount, a short balance, or a wrong PIN: `END … You were not charged.` Three wrong PINs lock that session.
 
-**Send path (envelope, no new Solidity):** lookup code → auto-open 15-minute `GhostInvoiceRegistry` invoice to that address → EIP-3009 `transferWithAuthorization` from sender’s custodied key → relayer `GhostGateway.settle` (relayer pays WBT). Failures return `END … You were not charged.`
+Demo phones `+254700000001` (`880001`) and `+254700000002` (`880002`) have no per-phone hash, so they still accept PIN `2580`. Every later phone uses only the PIN it set. The PIN is never printed on the handset.
+
+**Send path (envelope, no new Solidity):** the payee must already have dialed and set a PIN. Lookup phone or code → open a 15-minute `GhostInvoiceRegistry` invoice to that address → EIP-3009 `transferWithAuthorization` from the sender’s custodied key → relayer `GhostGateway.settle` (relayer pays WBT). The index used for the key is assigned at registration. It is not derived from the phone number.
 
 `GET /api/ussd` returns a one-line help `END`.
 

@@ -1,6 +1,12 @@
-import { scryptSync, timingSafeEqual } from "node:crypto";
+import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 
 const SCRYPT = { N: 16384, r: 8, p: 1 } as const;
+
+export function hashPin(pin: string): string {
+  const salt = randomBytes(16);
+  const hash = scryptSync(pin, salt, 32, SCRYPT);
+  return `${salt.toString("hex")}:${hash.toString("hex")}`;
+}
 
 export function verifyPin(pin: string, stored: string): boolean {
   const [saltHex, hashHex] = stored.split(":");

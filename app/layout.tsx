@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "USend — sending stablecoins using USSD codes",
+  title: "USend — a USDT wallet you dial",
   description:
-    "USend: sending stablecoins using USSD codes. Africa's Talking sandbox is not a live MNO. Prize USDT on Whitechain Sepolia is real.",
+    "USend is a USDT wallet on any phone. Dial USSD. No internet and no smartphone. Prize USDT settles on Whitechain.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

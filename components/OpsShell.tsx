@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 
 type Status = {
   relayerJob: string;
@@ -83,11 +82,12 @@ export function OpsShell() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-col gap-5 font-mono">
+    <div className="mx-auto flex w-full max-w-2xl flex-col gap-5 font-mono text-[#f4ead5]">
       <header>
-        <p className="text-xs uppercase tracking-widest text-[#e2b04a]">Operator console</p>
-        <h1 className="font-sans text-2xl font-semibold">USend /ops</h1>
-        <p className="text-xs text-[#f5d76e]">USSD simulator — not a live MNO session.</p>
+        <p className="text-xs uppercase tracking-widest text-[#e2b04a]">Operator</p>
+        <h2 className="font-sans text-2xl font-semibold text-[#f4ead5]">
+          Balances, cash-in, and the relayer
+        </h2>
       </header>
 
       <div className="flex gap-2">
@@ -174,10 +174,6 @@ export function OpsShell() {
           </section>
         </>
       ) : null}
-
-      <Link href="/" className="text-center text-xs text-[#b9aa8e] underline">
-        Back
-      </Link>
     </div>
   );
 }

@@ -25,8 +25,8 @@ type AtFields = {
 function hopMetadata(text: string, body: string): string {
   const kind = body.startsWith("END ") ? "end" : "con";
   if (text === "") return `WelcomeMenu:${kind}`;
-  if (text === "1") return `EnterCode:${kind}`;
-  if (text === "2") return `Activate:${kind}`;
+  if (text === "1") return `EnterNumber:${kind}`;
+  if (text === "2") return `Receive:${kind}`;
   if (text === "3") return `Balance:${kind}`;
   if (text === "0") return `Exit:${kind}`;
   const parts = text.split("*");

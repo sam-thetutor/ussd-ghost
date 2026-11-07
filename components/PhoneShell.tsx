@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const SERVICE = "*384*71618#";
 const BANNER = "USSD simulator — not a live MNO session.";
@@ -16,8 +16,6 @@ export function PhoneShell() {
   const [buffer, setBuffer] = useState("");
   const [screen, setScreen] = useState("Dial *384*71618#");
   const [busy, setBusy] = useState(false);
-
-  const concatenated = useMemo(() => hops.join("*"), [hops]);
 
   const resetIdle = useCallback(() => {
     setMode("idle");
@@ -152,10 +150,6 @@ export function PhoneShell() {
           </button>
         </div>
       </div>
-      <p className="max-w-xs text-center text-xs text-[#b9aa8e]">
-        Shared-phone: hang up or close the tab and the session dies. Concatenated
-        hops go to POST /api/ussd ({concatenated || "empty first hop"}).
-      </p>
     </div>
   );
 }
