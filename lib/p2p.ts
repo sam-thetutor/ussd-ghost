@@ -15,7 +15,6 @@ import { rememberInvoice } from "./invoices";
 import { privateKey } from "./keys";
 import {
   allocateUser,
-  findByCode,
   findByPhone,
   markAllowlisted,
   nextWalletIndex,
@@ -76,7 +75,10 @@ export async function ensureAllowlisted(user: P2pUser): Promise<boolean> {
   }
 }
 
-export async function activatePhone(phone: string): Promise<{
+export async function activatePhone(
+  phone: string,
+  pinHash?: string,
+): Promise<{
   user: P2pUser;
   balance: string;
   created: boolean;
@@ -92,7 +94,7 @@ export async function activatePhone(phone: string): Promise<{
   }
   const index = nextWalletIndex();
   const address = custodyAddressForIndex(index);
-  const user = allocateUser(phone, address, index);
+  const user = allocateUser(phone, address, index, pinHash);
   await ensureAllowlisted(user);
   return {
     user,
@@ -126,19 +128,16 @@ async function openEnvelope(payee: Address, amount: bigint, hintPhone: string): 
   return invoiceId;
 }
 
-export async function payToCode(opts: {
+export async function payToUser(opts: {
   fromPhone: string;
-  code: string;
+  payee: P2pUser;
   amount: bigint;
 }): Promise<SettleResult | { ok: false; reason: string; detail: string }> {
   const sender = findByPhone(opts.fromPhone);
   if (!sender) {
     return { ok: false, reason: "not_activated", detail: "Sender has not activated" };
   }
-  const payee = findByCode(opts.code);
-  if (!payee) {
-    return { ok: false, reason: "unknown_code", detail: "Unknown code" };
-  }
+  const payee = opts.payee;
   if (payee.phone === sender.phone) {
     return { ok: false, reason: "self_pay", detail: "Cannot pay yourself" };
   }

@@ -38,7 +38,7 @@ async function main() {
     process.exit(1);
   }
   if (relayerWbt === BigInt(0)) {
-    console.error("BLOCKED: relayer has 0 WBT. Claim faucet to treasury, then /ops top-up.");
+    console.error("BLOCKED: relayer has 0 WBT. Claim faucet to treasury, then use the operator panel on the homepage.");
     process.exit(1);
   }
 

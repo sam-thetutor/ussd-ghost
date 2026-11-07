@@ -14,7 +14,7 @@ export default function DebugPage() {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-2xl flex-col gap-4 px-6 py-10">
+    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-4 bg-[#14110d] px-6 py-10 text-[#f4ead5]">
       <h1 className="text-xl font-semibold">Debug (off video)</h1>
       <p className="font-mono text-sm text-[#f5d76e]">
         USSD simulator — not a live MNO session.
